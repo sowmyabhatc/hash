@@ -69,9 +69,34 @@ return ht;
 
 HashTable* hashtable_delElement(HashTable *ht,char *data){
 assert(ht!=NULL);
-
+Node *node=ht->tableAddress[_hashing_(data,ht->tableSize)];   //has the address of the node to be deleted
+Node *temp, *prev = NULL;
+if(node->next==NULL){
+temp=node;
+ht->tableAddress[_hashing_(data,ht->tableSize)]=NULL;
+}
+while(node!=NULL){
+    if(!strcmp(node->name,data)){
+        if(ht->tableAddress[_hashing_(data,ht->tableSize)]==node){
+            temp=node;
+            ht->tableAddress[_hashing_(data,ht->tableSize)]=node->next;
+        }
+    else{
+        prev->next=node->next;
+        temp=node;
+    }
+    break;
+}
+else{
+  prev=node;
+  node=node->next;
+}
+}
+free(temp);
 return ht;
 }
+
+
 
 
 //prime number generation
